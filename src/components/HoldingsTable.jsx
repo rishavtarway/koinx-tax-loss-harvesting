@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 
 /**
- * High-precision balance and currency spacing formatter.
+ * Spaced currency formatter matching the original visual alignments.
  */
 const formatSpacedCurrency = (value) => {
   const absoluteValue = Math.abs(value);
@@ -30,8 +30,7 @@ const formatSpacedCryptoBalance = (balance) => {
 };
 
 /**
- * Interactive Holdings Table matching the original CSS classes.
- * Supports system theme syncing and mobile grid hides.
+ * Holdings Table Component replicating the exact original class names and cell paddings.
  * 
  * @param {object} props
  * @param {Array} props.holdings - Complete array of crypto asset holdings
@@ -93,7 +92,6 @@ export default function HoldingsTable({ holdings, selectedIds, onToggleAsset, on
                 <div>Holdings</div>
                 <div className="th-sub hide-mobile">Avg Buy Price</div>
               </th>
-              <th className="th-right hide-mobile">Current Price</th>
               <th className="th-right hide-mobile">Total Current Value</th>
               <th className="th-right hide-mobile">Short-term</th>
               <th className="th-right hide-mobile">Long-Term</th>
@@ -111,7 +109,7 @@ export default function HoldingsTable({ holdings, selectedIds, onToggleAsset, on
                   className={`holding-row ${isSelected ? 'row-selected' : ''}`}
                   onClick={() => onToggleAsset(holding.id)}
                 >
-                  {/* Checkbox cell */}
+                  {/* Checkbox cell with exact padding */}
                   <td className="td-check" onClick={(e) => e.stopPropagation()}>
                     <input 
                       type="checkbox" 
@@ -121,7 +119,7 @@ export default function HoldingsTable({ holdings, selectedIds, onToggleAsset, on
                     />
                   </td>
 
-                  {/* Asset cell */}
+                  {/* Asset cell with exact padding */}
                   <td className="td-asset">
                     <div className="asset-inner">
                       <img 
@@ -144,36 +142,29 @@ export default function HoldingsTable({ holdings, selectedIds, onToggleAsset, on
                     </div>
                   </td>
 
-                  {/* Holdings Quantity (with dynamic subtext for mobile and desktop) */}
+                  {/* Holdings Quantity with exact padding */}
                   <td className="td-right">
                     <div className="cell-primary">
                       {formatSpacedCryptoBalance(holding.totalHolding)} {holding.coin}
                     </div>
-                    {/* Desktop subtext: Average Buy Price */}
+                    {/* Desktop subtext */}
                     <div className="cell-secondary hide-mobile">
                       $ {holding.averageBuyPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/{holding.coin}
                     </div>
-                    {/* Mobile subtext: Total Current Value */}
+                    {/* Mobile subtext */}
                     <div className="cell-secondary show-mobile-only">
                       {formatSpacedValueCurrency(totalValue)}
                     </div>
                   </td>
 
-                  {/* Current Price (Desktop only) */}
-                  <td className="td-right hide-mobile">
-                    <div className="cell-primary">
-                      $ {holding.currentPrice.toLocaleString("en-US", { maximumFractionDigits: 4 })}
-                    </div>
-                  </td>
-
-                  {/* Total Current Value (Desktop only) */}
+                  {/* Total Current Value with exact padding (Desktop only) */}
                   <td className="td-right hide-mobile">
                     <div className="cell-primary">
                       {formatSpacedValueCurrency(totalValue)}
                     </div>
                   </td>
 
-                  {/* Short-term Gain (Desktop only) */}
+                  {/* Short-term Gain with exact padding (Desktop only) */}
                   <td className="td-right hide-mobile">
                     <div className={`cell-gain ${getGainClass(holding.stcg.gain)}`}>
                       {formatSpacedCurrency(holding.stcg.gain)}
@@ -183,7 +174,7 @@ export default function HoldingsTable({ holdings, selectedIds, onToggleAsset, on
                     </div>
                   </td>
 
-                  {/* Long-term Gain (Desktop only) */}
+                  {/* Long-term Gain with exact padding (Desktop only) */}
                   <td className="td-right hide-mobile">
                     <div className={`cell-gain ${getGainClass(holding.ltcg.gain)}`}>
                       {formatSpacedCurrency(holding.ltcg.gain)}
@@ -193,7 +184,7 @@ export default function HoldingsTable({ holdings, selectedIds, onToggleAsset, on
                     </div>
                   </td>
 
-                  {/* Amount to Sell (Desktop only) */}
+                  {/* Amount to Sell with exact padding (Desktop only) */}
                   <td className="td-right hide-mobile">
                     {isSelected ? (
                       <span className="amount-to-sell">
