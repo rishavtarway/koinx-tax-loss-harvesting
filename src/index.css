@@ -1,59 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-
-  /* Figma Light Mode Colors */
-  --bg-app: #f2f5fa;
-  --bg-card: #ffffff;
-  --bg-card-header: #f8fafc;
-  --bg-disclaimer: #eff6ff;
-  --c-border: #e2e8f0;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   
-  --c-text-title: #0f172a;
+  /* Figma Dark Theme Colors (Default) */
+  --bg-app: #0d1117;
+  --bg-header: #0f1923;
+  --bg-card-pre: #141d27;
+  --bg-holdings: #0f1923;
+  --border-disclaimer: rgba(59, 130, 246, 0.25);
+  --border-card: rgba(255, 255, 255, 0.07);
+  --border-table: rgba(255, 255, 255, 0.08);
+  --border-row: rgba(255, 255, 255, 0.05);
+  --border-header: rgba(255, 255, 255, 0.07);
+  
+  --c-text-primary: #ffffff;
+  --c-text-secondary: #d1d5db;
+  --c-text-muted: #9ca3af;
+  --c-text-label: rgba(255, 255, 255, 0.85);
+  --c-text-col-val: rgba(255, 255, 255, 0.7);
+  
+  --scrollbar-track: #0d1117;
+  --scrollbar-thumb: #2d3748;
+  --scrollbar-thumb-hover: #4a5568;
+}
+
+/* Light Theme Variables matching Figma Light Mode */
+[data-theme="light"] {
+  --bg-app: #f2f5fa;
+  --bg-header: #ffffff;
+  --bg-card-pre: #ffffff;
+  --bg-holdings: #ffffff;
+  --border-disclaimer: #e2e8f0;
+  --border-card: #e2e8f0;
+  --border-table: #e2e8f0;
+  --border-row: #e2e8f0;
+  --border-header: #e2e8f0;
+  
   --c-text-primary: #1e293b;
   --c-text-secondary: #475569;
   --c-text-muted: #94a3b8;
+  --c-text-label: #475569;
+  --c-text-col-val: #64748b;
   
-  /* Accent Colors */
-  --c-primary: #0052ff;
-  --c-primary-hover: #0045d8;
-  --c-primary-bg: #e6f0ff;
-  
-  --c-profit: #10b981;
-  --c-profit-bg: rgba(16, 185, 129, 0.1);
-  --c-loss: #ef4444;
-  --c-loss-bg: rgba(239, 68, 68, 0.1);
-  --c-gold: #eab308;
-
-  --radius-lg: 12px;
-  --radius-md: 8px;
-  --radius-sm: 4px;
-  --transition-fast: all 0.2s ease;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --scrollbar-track: #f2f5fa;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
 }
 
-/* Dark Mode Variables matching Figma Dark Mode */
-[data-theme="dark"] {
-  --bg-app: #0b0f19;
-  --bg-card: #161b26;
-  --bg-card-header: #1e2533;
-  --bg-disclaimer: #162031;
-  --c-border: #262f3f;
-  
-  --c-text-title: #ffffff;
-  --c-text-primary: #f1f5f9;
-  --c-text-secondary: #94a3b8;
-  --c-text-muted: #64748b;
-  
-  --c-primary: #0052ff;
-  --c-primary-hover: #3b82f6;
-  --c-primary-bg: rgba(0, 82, 255, 0.15);
-}
-
-/* Global Reset */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -61,470 +58,684 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-app);
+  background: var(--bg-app);
   color: var(--c-text-primary);
-  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #1e3a5f;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .app-root {
   min-height: 100vh;
+  background: var(--bg-app);
+  transition: background-color 0.2s ease;
 }
 
-.app-container {
-  width: 100%;
-  max-width: 100%;
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border-header);
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.app-main {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 32px 48px 32px;
-}
-
-/* Header Styling */
-.nav-header {
+  padding: 28px 32px 60px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 0;
-  margin-bottom: 24px;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.nav-brand {
+.koinx-logo {
   display: flex;
-  align-items: center;
-  text-decoration: none;
+  align-items: baseline;
+  gap: 1px;
+  line-height: 1;
 }
 
-.brand-logo {
-  font-size: 24px;
+.logo-koin {
+  color: #3b82f6;
   font-weight: 800;
+  font-size: 22px;
   letter-spacing: -0.5px;
-  color: #0052ff;
-  display: flex;
-  align-items: center;
 }
 
-.brand-logo .logo-accent {
-  color: #f59e0b;
+.logo-x {
+  color: #f97316;
   font-weight: 800;
+  font-size: 22px;
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.logo-reg {
+  color: var(--c-text-muted);
+  font-size: 10px;
+  margin-left: 1px;
+  vertical-align: super;
 }
 
-/* Theme Switch Toggle */
-.theme-toggle-btn {
-  background: var(--bg-card);
-  border: 1px solid var(--c-border);
-  color: var(--c-text-primary);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-fast);
-}
-
-.theme-toggle-btn:hover {
-  background: var(--bg-card-header);
-  transform: scale(1.05);
-}
-
-.theme-toggle-btn svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* Hero Section */
-.hero-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.hero-meta h1 {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--c-text-title);
-  letter-spacing: -0.5px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.how-it-works-btn {
-  background: transparent;
+.hamburger {
+  background: none;
   border: none;
-  color: #0052ff;
-  font-weight: 500;
-  font-size: 14px;
-  text-decoration: underline;
+  color: var(--c-text-muted);
   cursor: pointer;
-  display: inline-flex;
+  display: none;
+}
+
+.page-title-row {
+  display: flex;
   align-items: center;
-  position: relative;
+  gap: 12px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--c-text-primary);
+}
+
+.how-it-works {
+  font-size: 13px;
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.how-it-works:hover {
+  color: #60a5fa;
+}
+
+.disclaimer-banner {
+  background: var(--bg-header);
+  border: 1px solid var(--border-disclaimer);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.disclaimer-header {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  color: var(--c-text-primary);
   font-family: var(--font-sans);
 }
 
-.how-it-works-btn:hover {
-  color: var(--c-primary-hover);
+.disclaimer-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* Tooltip on hover matching Figma exactly */
-.how-it-works-btn .tooltip-box {
-  visibility: hidden;
-  opacity: 0;
-  width: 280px;
-  background-color: #111827;
-  color: #d1d5db;
-  text-align: left;
-  border-radius: var(--radius-md);
-  padding: 14px;
-  position: absolute;
-  z-index: 100;
-  bottom: 130%;
-  left: 0;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-  transition: opacity 0.2s, transform 0.2s;
-  transform: translateY(6px);
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.5;
-  text-decoration: none !important;
+.disclaimer-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--c-text-primary);
 }
 
-.how-it-works-btn:hover .tooltip-box {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
+.chevron {
+  transition: transform 0.2s ease;
+  color: var(--c-text-muted);
+  flex-shrink: 0;
 }
 
-.how-it-works-btn .tooltip-box h4 {
-  color: #ffffff;
-  margin-bottom: 6px;
-  font-weight: 600;
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+.disclaimer-list {
+  padding: 4px 18px 16px 18px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.disclaimer-item {
+  display: flex;
+  gap: 8px;
+  color: var(--c-text-secondary);
   font-size: 13px;
+  line-height: 1.5;
+}
+
+.bullet {
+  color: var(--c-text-muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.info-icon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.how-it-works-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.hiw-tooltip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  background: #1c2b3a;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #d1d5db;
+  line-height: 1.6;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  z-index: 300;
+  pointer-events: none;
+  white-space: normal;
+}
+
+.hiw-tooltip-arrow {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: #1c2b3a;
+  border-left: 1px solid rgba(59, 130, 246, 0.3);
+  border-top: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.how-it-works-wrapper:hover .hiw-tooltip {
+  display: block;
 }
 
 .tooltip-link {
   color: #3b82f6;
   text-decoration: underline;
+  pointer-events: auto;
 }
 
-/* Collapsible Disclaimer Card */
-.disclaimer-card {
-  background: var(--bg-disclaimer);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-md);
-  margin-bottom: 24px;
-  overflow: hidden;
-  transition: var(--transition-fast);
-}
-
-.disclaimer-trigger {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: transparent;
-  border: none;
-  width: 100%;
-  padding: 14px 20px;
-  cursor: pointer;
-  font-family: var(--font-sans);
-  text-align: left;
-  transition: var(--transition-fast);
-}
-
-.disclaimer-label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--c-text-primary);
-}
-
-.disclaimer-label svg {
-  color: #0052ff;
-  flex-shrink: 0;
-}
-
-.disclaimer-chevron {
-  transition: transform 0.2s ease;
-  color: var(--c-text-secondary);
-}
-
-.disclaimer-chevron.expanded {
-  transform: rotate(180deg);
-}
-
-.disclaimer-content {
-  padding: 0 20px 16px 20px;
-  animation: slideDown 0.2s ease-out forwards;
-}
-
-.disclaimer-list {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding-left: 20px;
-}
-
-.disclaimer-item {
-  font-size: 13px;
-  color: var(--c-text-secondary);
-  line-height: 1.5;
-  position: relative;
-}
-
-.disclaimer-item::before {
-  content: "•";
-  color: var(--c-text-primary);
-  font-weight: bold;
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
-}
-
-/* Capital Gains Grid */
-.gains-grid {
+.cards-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-bottom: 24px;
+  gap: 16px;
 }
 
-@media (max-width: 768px) {
-  .gains-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-/* Card General Styling */
-.card-glass {
-  background: var(--bg-card);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-fast);
+.gains-card {
+  border-radius: 12px;
+  padding: 22px 24px;
   display: flex;
   flex-direction: column;
 }
 
-.card-pre {
-  background: var(--bg-card);
+.pre-card {
+  background: var(--bg-card-pre);
+  border: 1px solid var(--border-card);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-/* Solid Blue Card matching Figma exactly */
-.card-post {
-  background: #0052ff;
-  color: #ffffff;
-  border-color: #0052ff;
-  box-shadow: 0 10px 25px -5px rgba(0, 82, 255, 0.2);
-}
-
-.card-header-row {
-  margin-bottom: 20px;
-}
-
-.card-badge {
-  display: none; /* Hide custom badge to match Figma exactly */
+.after-card {
+  background: linear-gradient(145deg, #0052ff 0%, #1d4ed8 55%, #1e40af 100%);
+  box-shadow: 0 4px 28px rgba(0, 82, 255, 0.25);
 }
 
 .card-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--c-text-title);
-}
-
-.card-post .card-title {
-  color: #ffffff;
-}
-
-/* Card Table Styling matching Figma exactly */
-.card-table {
-  width: 100%;
-  border-collapse: collapse;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--c-text-primary);
   margin-bottom: 16px;
 }
 
-.card-table th {
-  text-align: right;
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: uppercase;
-  color: var(--c-text-muted);
-  padding-bottom: 12px;
-  border-bottom: none;
+.after-card .card-title {
+  color: #ffffff;
 }
 
-.card-post .card-table th {
+.gains-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.col-label {
+  width: 40%;
+  text-align: left;
+  padding-bottom: 8px;
+  color: rgba(255, 255, 255, 0);
+}
+
+.col-val {
+  text-align: right;
+  padding-bottom: 8px;
+  font-weight: 400;
+  color: var(--c-text-col-val);
+}
+
+.after-card .col-val {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.card-table th:first-child {
-  text-align: left;
+.row-label {
+  padding: 6px 0;
+  color: var(--c-text-label);
 }
 
-.card-table td {
-  padding: 12px 0;
-  font-size: 14px;
-  border-bottom: none; /* Figma uses borderless tables */
-}
-
-.card-table td:first-child {
-  color: var(--c-text-secondary);
-  font-weight: 500;
-  text-align: left;
-}
-
-.card-post .card-table td:first-child {
+.after-card .row-label {
   color: rgba(255, 255, 255, 0.9);
 }
 
-.card-table td:not(:first-child) {
+.row-val {
   text-align: right;
+  padding: 6px 0;
+  color: var(--c-text-primary);
+  font-weight: 500;
+}
+
+.after-card .row-val {
+  color: #ffffff;
+}
+
+.net-row {
+  border-top: 1px solid var(--border-table);
+}
+
+.after-card .net-row {
+  border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+.net-label {
+  padding-top: 12px;
+  padding-bottom: 4px;
   font-weight: 600;
   color: var(--c-text-primary);
 }
 
-.card-post .card-table td:not(:first-child) {
+.after-card .net-label {
   color: #ffffff;
 }
 
-.row-net td {
-  font-weight: 700 !important;
-  color: var(--c-text-title) !important;
-  padding-top: 16px !important;
-  padding-bottom: 16px !important;
-}
-
-.card-post .row-net td {
-  color: #ffffff !important;
-}
-
-/* Realized Gain Banner at Bottom */
-.card-realised-banner {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding-top: 16px;
-  border-top: 1px solid var(--c-border);
-  margin-top: auto;
-}
-
-.card-post .card-realised-banner {
-  border-top-color: rgba(255, 255, 255, 0.2);
-}
-
-.realised-title {
-  font-size: 15px;
+.net-val {
+  text-align: right;
+  padding-top: 12px;
+  padding-bottom: 4px;
   font-weight: 700;
   color: var(--c-text-primary);
 }
 
-.card-post .realised-title {
+.after-card .net-val {
   color: #ffffff;
 }
 
-.realised-value {
+.val-negative {
+  color: #f87171 !important;
+}
+
+.after-card .val-negative {
+  color: #fca5a5 !important;
+}
+
+.val-positive {
+  color: var(--c-profit);
+}
+
+.after-card .val-positive {
+  color: #ffffff;
+}
+
+.realised-row {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-table);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.after-card .realised-row {
+  border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+.realised-label {
+  font-weight: 600;
+  color: var(--c-text-primary);
+  font-size: 14px;
+}
+
+.after-card .realised-label {
+  color: #ffffff;
+}
+
+.realised-val {
   font-size: 24px;
   font-weight: 800;
-  color: var(--c-text-title);
-  letter-spacing: -0.5px;
-  line-height: 1;
+  color: var(--c-text-primary);
 }
 
-.card-post .realised-value {
+.after-card .realised-val {
   color: #ffffff;
 }
 
-/* Savings Box matching Figma exactly */
-.savings-banner {
-  background: transparent;
-  border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 14px 0 0 0;
-  margin-top: 16px;
+.savings-row {
+  margin-top: 12px;
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.savings-icon-container {
-  display: none; /* Hide container matching Figma icon placement */
-}
-
-.savings-info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-}
-
-.savings-info .savings-label {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--c-text-primary);
   font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 12px;
 }
 
-.savings-info .savings-label::before {
-  content: "🎉";
-}
-
-.savings-info .savings-val {
-  font-size: 13px;
-  font-weight: 700;
+.after-card .savings-row {
   color: #ffffff;
 }
 
-/* Responsiveness adjustments matching Figma */
+.savings-amount {
+  font-weight: 700;
+  color: #fde68a;
+}
+
+.error-banner {
+  background: rgba(127, 29, 29, 0.4);
+  border: 1px solid #b91c1c;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #fca5a5;
+  font-size: 13px;
+}
+
+.holdings-section {
+  background: var(--bg-holdings);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.holdings-header {
+  padding: 18px 20px 10px;
+}
+
+.holdings-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--c-text-primary);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.holdings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 800px;
+}
+
+.thead-row {
+  border-bottom: 1px solid var(--border-table);
+}
+
+.th-check {
+  padding: 12px 12px;
+  width: 44px;
+}
+
+.th-left {
+  padding: 12px 12px;
+  text-align: left;
+  color: var(--c-text-muted);
+  font-weight: 500;
+}
+
+.th-right {
+  padding: 12px 12px;
+  text-align: right;
+  color: var(--c-text-muted);
+  font-weight: 500;
+}
+
+.th-sub {
+  font-size: 11px;
+  color: var(--c-text-muted);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+.holding-row {
+  border-bottom: 1px solid var(--border-row);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.holding-row:hover {
+  background: rgba(0, 82, 255, 0.015);
+}
+
+.row-selected {
+  background: var(--c-primary-bg) !important;
+}
+
+.row-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #3b82f6;
+  cursor: pointer;
+}
+
+.td-check {
+  padding: 12px 12px;
+  width: 44px;
+}
+
+.td-asset {
+  padding: 12px 12px;
+}
+
+.td-right {
+  padding: 12px 12px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+.asset-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.coin-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #1f2937;
+  flex-shrink: 0;
+  border: 1px solid var(--border-row);
+}
+
+.asset-name {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--c-text-primary);
+  white-space: nowrap;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.asset-ticker {
+  font-size: 11px;
+  color: var(--c-text-muted);
+  margin-top: 1px;
+}
+
+.cell-primary {
+  color: var(--c-text-primary);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.cell-secondary {
+  color: var(--c-text-muted);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.cell-gain {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.gain-pos {
+  color: var(--c-profit);
+}
+
+.gain-neg {
+  color: #f87171;
+}
+
+.gain-zero {
+  color: var(--c-text-muted);
+}
+
+.amount-to-sell {
+  color: var(--c-text-primary);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.view-all-row {
+  padding: 14px 20px;
+}
+
+.view-all-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #3b82f6;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  text-decoration: underline;
+}
+
+.view-all-btn:hover {
+  color: #60a5fa;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Theme Toggle Button Styling */
+.theme-toggle-btn {
+  background: var(--bg-card-pre);
+  border: 1px solid var(--border-card);
+  color: var(--c-text-primary);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.05);
+  background: var(--bg-header);
+}
+
+.theme-toggle-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Responsive Column Layout matching new screenshots */
 .show-mobile-only {
   display: none;
 }
 
 @media (max-width: 768px) {
-  .hero-section {
-    margin-bottom: 16px;
-    align-items: flex-start;
+  .app-header {
+    padding: 12px 16px;
   }
-  
-  .hero-meta h1 {
-    font-size: 24px;
+
+  .app-main {
+    padding: 20px 16px 48px;
+    gap: 16px;
+    max-width: 100%;
   }
-  
-  .app-container {
-    padding: 0 16px 32px 16px;
+
+  .hamburger {
+    display: block;
   }
-  
-  .nav-header {
-    margin-bottom: 16px;
-    padding: 16px 0;
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
-  
-  .card-glass {
-    padding: 20px;
+
+  .gains-card {
+    padding: 18px 16px;
   }
-  
-  .holdings-container {
-    padding: 20px 16px;
+
+  .realised-val {
+    font-size: 20px;
+  }
+
+  .hiw-tooltip {
+    width: 240px;
+    font-size: 12px;
   }
 
   .hide-mobile {
@@ -534,341 +745,23 @@ body {
   .show-mobile-only {
     display: block !important;
   }
-}
 
-/* Holdings Card Layout */
-.holdings-container {
-  background: var(--bg-card);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-}
-
-.holdings-controls {
-  margin-bottom: 16px;
-}
-
-.holdings-title-row {
-  display: flex;
-  align-items: center;
-}
-
-.holdings-main-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--c-text-title);
-}
-
-.holdings-count-badge {
-  display: none; /* Hide count badge matching Figma */
-}
-
-.table-actions {
-  display: none; /* Hide search and filter dropdown matching Figma */
-}
-
-/* Table Design matching Figma */
-.table-scroll-wrapper {
-  overflow-x: auto;
-  margin: 0 -24px;
-  padding: 0 24px;
-}
-
-.holdings-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.holdings-table th {
-  background: transparent;
-  padding: 12px;
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: uppercase;
-  color: var(--c-text-muted);
-  border-bottom: 1px solid var(--c-border);
-}
-
-.holdings-table th.th-right {
-  text-align: right;
-}
-
-.holdings-table th:first-child {
-  padding-left: 0;
-}
-
-.holdings-table th:last-child {
-  padding-right: 0;
-}
-
-.holdings-table td {
-  padding: 16px 12px;
-  border-bottom: 1px solid var(--c-border);
-  vertical-align: middle;
-  font-size: 14px;
-  transition: var(--transition-fast);
-}
-
-.holdings-table td:first-child {
-  padding-left: 0;
-}
-
-.holdings-table td:last-child {
-  padding-right: 0;
-}
-
-/* Row Hover & Selection Styling */
-.holdings-table tr:hover td {
-  background: rgba(0, 82, 255, 0.015);
-}
-
-/* Selected row has a soft background tint */
-.holdings-table tr.row-selected td {
-  background: var(--c-primary-bg) !important;
-}
-
-.holdings-table td.td-right {
-  text-align: right;
-}
-
-/* Indeterminate checkbox support and clean figma design */
-.checkbox-container {
-  display: inline-block;
-  position: relative;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
-.checkbox-container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.checkbox-custom {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 18px;
-  width: 18px;
-  background-color: var(--bg-card);
-  border: 1px solid var(--c-border);
-  border-radius: 4px;
-  transition: var(--transition-fast);
-}
-
-.checkbox-container:hover input ~ .checkbox-custom {
-  border-color: var(--c-primary);
-}
-
-.checkbox-container input:checked ~ .checkbox-custom {
-  background-color: var(--c-primary);
-  border-color: var(--c-primary);
-}
-
-.checkbox-custom::after {
-  content: "";
-  position: absolute;
-  display: none;
-  left: 6px;
-  top: 2px;
-  width: 4px;
-  height: 8px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.checkbox-container input:checked ~ .checkbox-custom::after {
-  display: block;
-}
-
-/* Indeterminate design */
-.checkbox-container input:indeterminate ~ .checkbox-custom {
-  background-color: var(--c-primary);
-  border-color: var(--c-primary);
-}
-
-.checkbox-container input:indeterminate ~ .checkbox-custom::after {
-  content: "";
-  position: absolute;
-  display: block;
-  left: 4px;
-  top: 7px;
-  width: 8px;
-  height: 2px;
-  background: white;
-  border: none;
-  transform: none;
-}
-
-/* Asset Cell Columns */
-.asset-cell {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.coin-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: #ffffff;
-  border: 1px solid var(--c-border);
-}
-
-.coin-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.coin-symbol {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--c-text-primary);
-  line-height: 1.2;
-}
-
-.coin-fullname {
-  font-size: 12px;
-  color: var(--c-text-muted);
-}
-
-/* Table value formatting */
-.val-primary {
-  font-weight: 600;
-  color: var(--c-text-primary);
-}
-
-.val-secondary {
-  font-size: 11px;
-  color: var(--c-text-muted);
-  margin-top: 2px;
-}
-
-/* Colored gain displays matching Figma exactly */
-.gain-pill {
-  font-weight: 700;
-  font-size: 14px;
-  display: inline-block;
-}
-
-.gain-positive {
-  color: var(--c-profit);
-}
-
-.gain-negative {
-  color: var(--c-loss);
-}
-
-.gain-neutral {
-  color: var(--c-text-secondary);
-}
-
-.val-negative {
-  color: var(--c-loss) !important;
-}
-
-.val-positive {
-  color: var(--c-profit) !important;
-}
-
-/* Amount to Sell badge */
-.sell-badge {
-  font-weight: 600;
-  color: var(--c-text-primary);
-}
-
-.row-selected .sell-badge {
-  font-weight: 700;
-}
-
-/* View all blue link at bottom left matching Figma exactly */
-.view-more-row {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 16px;
-}
-
-.btn-view-all {
-  background: transparent;
-  border: none;
-  color: #0052ff;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  transition: var(--transition-fast);
-  text-decoration: underline;
-  padding: 4px 0;
-  font-family: var(--font-sans);
-}
-
-.btn-view-all:hover {
-  color: var(--c-primary-hover);
-}
-
-.btn-view-all svg {
-  display: none; /* Hide default chevron to match Figma simple link */
-}
-
-/* Skeleton Loading states */
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    rgba(148, 163, 184, 0.08) 25%,
-    rgba(148, 163, 184, 0.15) 37%,
-    rgba(148, 163, 184, 0.08) 63%
-  );
-  background-size: 400% 100%;
-  animation: skeletonLoading 1.4s ease infinite;
-  border-radius: 4px;
-}
-
-.skeleton-text {
-  height: 16px;
-  margin-bottom: 8px;
-}
-
-.skeleton-title {
-  height: 24px;
-  width: 140px;
-  margin-bottom: 20px;
-}
-
-.skeleton-card {
-  height: 280px;
-  border-radius: var(--radius-lg);
-}
-
-.skeleton-row {
-  height: 60px;
-  margin-bottom: 12px;
-}
-
-/* Animations */
-@keyframes skeletonLoading {
-  0% {
-    background-position: 100% 50%;
+  /* Reset table scroll bar constraints in mobile for clean full width */
+  .holdings-table {
+    min-width: 100% !important;
   }
-  100% {
-    background-position: 0% 50%;
+
+  .td-right {
+    padding: 12px 6px;
   }
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 18px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .gains-table {
+    font-size: 12.5px;
   }
 }

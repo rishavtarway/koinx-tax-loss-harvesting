@@ -8,6 +8,7 @@ import { computeHarvestedGains } from './utils/calculations';
 
 /**
  * Figma-exact, Mobile Responsive, and System-Theme-Aware Tax Loss Harvesting App Component
+ * Matches the original CSS HTML structures (app-main, page-title-row, how-it-works-wrapper, etc.)
  */
 export default function App() {
   const [capitalGains, setCapitalGains] = useState(null);
@@ -146,102 +147,72 @@ export default function App() {
     return 0;
   }, [preHarvestingData, postHarvestingData]);
 
-  // Loading Skeletons
-  const renderLoadingSkeletons = () => (
-    <>
-      <div className="gains-grid">
-        <div className="card-glass skeleton skeleton-card"></div>
-        <div className="card-glass skeleton skeleton-card"></div>
-      </div>
-      <div className="holdings-container">
-        <div className="skeleton skeleton-title" style={{ width: '200px' }}></div>
-        <div className="skeleton skeleton-row"></div>
-        <div className="skeleton skeleton-row"></div>
-        <div className="skeleton skeleton-row"></div>
-        <div className="skeleton skeleton-row"></div>
-      </div>
-    </>
+  // Loading Spinner matching your friend's spinner exactly
+  const renderLoadingSpinner = () => (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 0' }}>
+      <div className="spinner"></div>
+    </div>
   );
 
   return (
     <div className="app-root">
-      <div className="app-container">
-        {/* Navigation Bar */}
-        <Header theme={theme} onToggleTheme={handleToggleTheme} />
+      {/* Navigation Header with brand logo and theme switcher */}
+      <Header theme={theme} onToggleTheme={handleToggleTheme} />
 
-        <main>
-          {/* Headline Hero section matching Figma exactly */}
-          <section className="hero-section">
-            <div className="hero-meta">
-              <h1>
-                Tax Harvesting
-                <button className="how-it-works-btn" style={{ marginLeft: '12px', verticalAlign: 'middle' }}>
-                  <span>How it works?</span>
-                  <div className="tooltip-box">
-                    <h4>What is Tax Loss Harvesting?</h4>
-                    <p>Tax-loss harvesting lets you sell underperforming assets at a loss to decrease your taxable gains, lowering your overall tax bill.</p>
-                    <p style={{ marginTop: '6px', color: '#60a5fa' }}>Select individual holdings below to calculate real-time savings.</p>
-                  </div>
-                </button>
-              </h1>
+      {/* Main Container styled exactly to the original paddings and max-width */}
+      <main className="app-main">
+        {/* Page Title & Spaced Hover Tooltip */}
+        <div className="page-title-row">
+          <h1 className="page-title">Tax Harvesting</h1>
+          <span className="how-it-works-wrapper">
+            <a href="#!" className="how-it-works" onClick={(e) => e.preventDefault()}>How it works?</a>
+            <div className="hiw-tooltip">
+              <div className="hiw-tooltip-arrow" />
+              Tax-loss harvesting lets you sell underperforming assets at a loss to decrease your taxable gains, lowering your overall tax bill.{" "}
+              <a href="#!" className="tooltip-link" onClick={(e) => e.preventDefault()}>Know More</a>
             </div>
-          </section>
+          </span>
+        </div>
 
-          {/* Legal / Warning Accordion Banner */}
-          <DisclaimerBanner />
+        {/* Accordion Warning Banner */}
+        <DisclaimerBanner />
 
-          {/* Glowing Error Banner */}
-          {error && (
-            <div style={{
-              background: 'rgba(239, 68, 68, 0.1)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              color: 'var(--c-loss)',
-              padding: '14px 20px',
-              borderRadius: '8px',
-              marginBottom: '24px',
-              fontWeight: 500,
-              fontSize: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px'
-            }}>
-              <span>⚠️</span>
-              <span>{error}</span>
-            </div>
-          )}
+        {/* Glowing Error Banner */}
+        {error && (
+          <div className="error-banner">⚠️ {error}</div>
+        )}
 
-          {/* Primary Dashboard Content */}
-          {loading ? (
-            renderLoadingSkeletons()
-          ) : (
-            <>
-              {/* Capital Gains Cards */}
-              <div className="gains-grid">
-                <GainsCard 
-                  title="Pre Harvesting" 
-                  data={preHarvestingData} 
-                  isAfter={false} 
-                />
-                
-                <GainsCard 
-                  title="After Harvesting" 
-                  data={postHarvestingData} 
-                  isAfter={true} 
-                  savings={taxSavings} 
-                />
-              </div>
-
-              {/* Holdings Section */}
-              <HoldingsTable 
-                holdings={holdings}
-                selectedIds={selectedIds}
-                onToggleAsset={handleToggleAsset}
-                onToggleAllAssets={handleToggleAllAssets}
+        {/* Dashboard Grid Content */}
+        {loading ? (
+          renderLoadingSpinner()
+        ) : (
+          <>
+            {/* Pre & Post Harvesting Cards Grid */}
+            <div className="cards-grid">
+              <GainsCard 
+                title="Pre Harvesting" 
+                data={preHarvestingData} 
+                isAfter={false} 
               />
-            </>
-          )}
-        </main>
-      </div>
+              
+              <GainsCard 
+                title="After Harvesting" 
+                data={postHarvestingData} 
+                isAfter={true} 
+                savings={taxSavings} 
+              />
+            </div>
+
+            {/* Responsive Holdings Table */}
+            <HoldingsTable 
+              holdings={holdings}
+              selectedIds={selectedIds}
+              onToggleAsset={handleToggleAsset}
+              onToggleAllAssets={handleToggleAllAssets}
+            />
+          </>
+        )}
+      </main>
     </div>
   );
 }

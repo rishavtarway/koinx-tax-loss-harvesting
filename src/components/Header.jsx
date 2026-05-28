@@ -1,24 +1,24 @@
 import React from 'react';
 
 /**
- * Brand navigation Header component matching the Figma screenshots.
- * Incorporates a premium theme selector toggle to showcase light & dark modes.
+ * Brand-exact Header Component
+ * Matches the original CSS class naming models (logo-koin, logo-x, logo-reg)
  * 
  * @param {object} props
- * @param {string} props.theme - 'light' or 'dark'
- * @param {function} props.onToggleTheme - Theme switcher handler
+ * @param {string} props.theme - Current color theme mode ('light' or 'dark')
+ * @param {function} props.onToggleTheme - Handler to toggle theme
  */
 export default function Header({ theme, onToggleTheme }) {
   return (
-    <header className="nav-header">
-      <a href="/" className="nav-brand" onClick={(e) => e.preventDefault()}>
-        <div className="brand-logo">
-          Koin<span className="logo-accent">X</span><sup style={{ fontSize: '10px', fontWeight: 'bold', marginLeft: '1px' }}>®</sup>
-        </div>
+    <header className="app-header">
+      <a href="/" className="koinx-logo" style={{ textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>
+        <span className="logo-koin">Koin</span>
+        <span className="logo-x">X</span>
+        <span className="logo-reg">®</span>
       </a>
 
       <div className="header-actions">
-        {/* Sleek Theme Switcher Button */}
+        {/* Sleek Theme Switcher Toggle */}
         <button 
           className="theme-toggle-btn" 
           onClick={onToggleTheme}
@@ -27,7 +27,7 @@ export default function Header({ theme, onToggleTheme }) {
         >
           {theme === 'dark' ? (
             /* Sun Icon */
-            <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="5" />
               <line x1="12" y1="1" x2="12" y2="3" />
               <line x1="12" y1="21" x2="12" y2="23" />
@@ -40,10 +40,17 @@ export default function Header({ theme, onToggleTheme }) {
             </svg>
           ) : (
             /* Moon Icon */
-            <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
             </svg>
           )}
+        </button>
+
+        {/* Hamburger Menu on mobile */}
+        <button className="hamburger" aria-label="Open navigation menu">
+          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
+          </svg>
         </button>
       </div>
     </header>
