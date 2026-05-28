@@ -177,7 +177,7 @@ export default function App() {
               fontWeight: 500,
               fontSize: '15px',
               display: 'flex',
-              align-items: 'center',
+              alignItems: 'center',
               gap: '10px'
             }}>
               <span>⚠️</span>
