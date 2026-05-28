@@ -7,7 +7,7 @@ import { getCapitalGainsData, getHoldingsData } from './data/mockApi';
 import { computeHarvestedGains } from './utils/calculations';
 
 /**
- * Figma-exact Tax Loss Harvesting Orchestrator App Component
+ * Figma-exact, Mobile Responsive, and System-Theme-Aware Tax Loss Harvesting App Component
  */
 export default function App() {
   const [capitalGains, setCapitalGains] = useState(null);
@@ -16,12 +16,31 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // Theme state: default is light mode matching the main Figma mockup
+  // Theme state synchronized with the OS setting
   const [theme, setTheme] = useState('light');
 
-  // Initialize theme
+  // Automatically load and listen to OS system colors (Light/Dark mode)
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', 'light');
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Set initial state
+    const systemPrefersDark = mediaQuery.matches;
+    const initialTheme = systemPrefersDark ? 'dark' : 'light';
+    setTheme(initialTheme);
+    document.documentElement.setAttribute('data-theme', initialTheme);
+
+    // System theme change listener
+    const handleSystemThemeChange = (e) => {
+      const nextTheme = e.matches ? 'dark' : 'light';
+      setTheme(nextTheme);
+      document.documentElement.setAttribute('data-theme', nextTheme);
+    };
+
+    // Standard media listener binding
+    mediaQuery.addEventListener('change', handleSystemThemeChange);
+    return () => {
+      mediaQuery.removeEventListener('change', handleSystemThemeChange);
+    };
   }, []);
 
   const handleToggleTheme = () => {
@@ -40,7 +59,7 @@ export default function App() {
       try {
         setLoading(true);
         const [gainsRes, holdingsRes] = await Promise.all([
-          getCapitalGainsData(600), // simulated premium loading delay
+          getCapitalGainsData(600), // simulated network latency
           getHoldingsData(800)
         ]);
 

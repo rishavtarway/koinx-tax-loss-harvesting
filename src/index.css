@@ -494,6 +494,47 @@ body {
   color: #ffffff;
 }
 
+/* Responsiveness adjustments matching Figma */
+.show-mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  
+  .hero-meta h1 {
+    font-size: 24px;
+  }
+  
+  .app-container {
+    padding: 0 16px 32px 16px;
+  }
+  
+  .nav-header {
+    margin-bottom: 16px;
+    padding: 16px 0;
+  }
+  
+  .card-glass {
+    padding: 20px;
+  }
+  
+  .holdings-container {
+    padding: 20px 16px;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .show-mobile-only {
+    display: block !important;
+  }
+}
+
 /* Holdings Card Layout */
 .holdings-container {
   background: var(--bg-card);

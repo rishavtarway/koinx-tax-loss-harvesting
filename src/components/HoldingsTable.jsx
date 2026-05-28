@@ -37,7 +37,7 @@ const formatFigmaCryptoBalance = (balance, symbol) => {
 };
 
 /**
- * Figma-exact Holdings Table Component
+ * Figma-exact Holdings Table Component with Mobile Responsiveness
  * 
  * @param {object} props
  * @param {Array} props.holdings - Complete array of crypto asset holdings
@@ -101,14 +101,14 @@ export default function HoldingsTable({ holdings, selectedIds, onToggleAsset, on
               <th style={{ textAlign: 'left' }}>Asset</th>
               <th className="th-right" style={{ textAlign: 'right' }}>
                 <div>Holdings</div>
-                <div style={{ textTransform: 'none', fontSize: '10px', color: 'var(--c-text-muted)', marginTop: '2px', fontWeight: 'normal' }}>
+                <div className="hide-mobile" style={{ textTransform: 'none', fontSize: '10px', color: 'var(--c-text-muted)', marginTop: '2px', fontWeight: 'normal' }}>
                   Current Market Rate
                 </div>
               </th>
-              <th className="th-right" style={{ textAlign: 'right' }}>Total Current Value</th>
-              <th className="th-right" style={{ textAlign: 'right' }}>Short-term</th>
-              <th className="th-right" style={{ textAlign: 'right' }}>Long-Term</th>
-              <th className="th-right" style={{ textAlign: 'right' }}>Amount to Sell</th>
+              <th className="th-right hide-mobile" style={{ textAlign: 'right' }}>Total Current Value</th>
+              <th className="th-right hide-mobile" style={{ textAlign: 'right' }}>Short-term</th>
+              <th className="th-right hide-mobile" style={{ textAlign: 'right' }}>Long-Term</th>
+              <th className="th-right hide-mobile" style={{ textAlign: 'right' }}>Amount to Sell</th>
             </tr>
           </thead>
           <tbody>
@@ -158,25 +158,30 @@ export default function HoldingsTable({ holdings, selectedIds, onToggleAsset, on
                     </div>
                   </td>
 
-                  {/* Holdings Balance */}
+                  {/* Holdings Balance (responsive subtitle displays Total Current Value in mobile, and Average Buy price in desktop) */}
                   <td className="td-right">
                     <div className="val-primary">
                       {formatFigmaCryptoBalance(holding.totalHolding, holding.coin).replace(` ${holding.coin}`, '')} {holding.coin}
                     </div>
-                    <div className="val-secondary">
+                    {/* Desktop only subtext */}
+                    <div className="val-secondary hide-mobile">
                       $ {holding.averageBuyPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/{holding.coin}
+                    </div>
+                    {/* Mobile only subtext showing Total Current Value */}
+                    <div className="val-secondary show-mobile-only">
+                      {formatFigmaValueCurrency(totalValue)}
                     </div>
                   </td>
 
-                  {/* Total Current Value */}
-                  <td className="td-right">
+                  {/* Total Current Value (Desktop only) */}
+                  <td className="td-right hide-mobile">
                     <div className="val-primary">
                       {formatFigmaValueCurrency(totalValue)}
                     </div>
                   </td>
 
-                  {/* Short-term Gain */}
-                  <td className="td-right">
+                  {/* Short-term Gain (Desktop only) */}
+                  <td className="td-right hide-mobile">
                     <div className={`gain-pill ${getGainClass(holding.stcg.gain)}`}>
                       {formatFigmaTableCurrency(holding.stcg.gain)}
                     </div>
@@ -185,8 +190,8 @@ export default function HoldingsTable({ holdings, selectedIds, onToggleAsset, on
                     </div>
                   </td>
 
-                  {/* Long-term Gain */}
-                  <td className="td-right">
+                  {/* Long-term Gain (Desktop only) */}
+                  <td className="td-right hide-mobile">
                     <div className={`gain-pill ${getGainClass(holding.ltcg.gain)}`}>
                       {formatFigmaTableCurrency(holding.ltcg.gain)}
                     </div>
@@ -195,8 +200,8 @@ export default function HoldingsTable({ holdings, selectedIds, onToggleAsset, on
                     </div>
                   </td>
 
-                  {/* Amount to Sell */}
-                  <td className="td-right">
+                  {/* Amount to Sell (Desktop only) */}
+                  <td className="td-right hide-mobile">
                     {isSelected ? (
                       <span className="sell-badge">
                         {formatFigmaCryptoBalance(holding.totalHolding, holding.coin)}
