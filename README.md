@@ -1,115 +1,51 @@
-# KoinX Frontend Assignment - Tax Loss Harvesting Dashboard
+# KoinX Frontend Internship - Tax Loss Harvesting Assignment
 
-A premium, fully responsive, and highly polished React dashboard that simulates **Tax Loss Harvesting** for cryptocurrency investments. This application allows users to analyze their capital gains profile, select underperforming holdings to offset profits against losses, and realize real-time tax savings.
+This is a responsive React-based Tax Loss Harvesting dashboard built for the KoinX frontend intern assignment. The tool allows users to see their capital gains (pre and post harvesting), view their crypto holdings, and simulate tax savings by selecting specific underperforming assets to harvest.
 
----
+## Features Implemented
 
-## 🌟 Key Features
+* **Capital Gains Cards**: Shows profits, losses, net capital gains, and total realized capital gains for both Pre-Harvesting and After-Harvesting states.
+* **Dynamic Tax Simulator**: Selecting or deselecting a holding automatically recalculates the After-Harvesting card values in real-time.
+* **Savings Calculator**: Displays a "You are going to save upto $X" alert when the projected capital gains are reduced.
+* **Holdings Table**: Renders the complete list of holdings with checkbox selections, coin names, tickers, average buy prices, current prices, STCG, LTCG, and amount to sell.
+* **Mobile Responsiveness**: Stacks the layout on mobile screens and consolidates columns to fit perfectly on narrow screens.
+* **System Color scheme support**: Automatically boots in Light or Dark theme based on the user's computer preference, with a manual theme toggler in the header.
 
-### 📊 Real-Time Tax Loss Simulator
-* **Pre-Harvesting Card**: Shows baseline Short-Term Capital Gains (STCG) and Long-Term Capital Gains (LTCG) profits, losses, and net values sourced from mock APIs.
-* **After-Harvesting Card**: Projected gains card featuring a dynamic royal-to-blue gradient. Selection or deselection of individual assets instantly re-calculates the projected profits, losses, and total realized capital gains.
-* **Live Savings Calculator**: A glowing green notification banner appears dynamically when taxes are reduced (`Pre-Harvesting Realized Gains > Post-Harvesting Realized Gains`).
+## Setup and Run Instructions
 
-### 🪙 Advanced Holdings Table
-* **Dynamic Search**: Filter assets in real-time by coin symbol or name.
-* **Multi-Column Sorting**: Sort your holdings by Tax Impact (absolute gain/loss), Alphabetical name, Current Price, STCG gains, or LTCG gains.
-* **Interactive Selections**: High-performance multi-select checkboxes for holdings, complete with an **indeterminate state** in the table header select-all checkbox.
-* **Smart Fallbacks**: Custom SVG fallbacks for currency logos that fail to load, maintaining visual integrity.
-* **Amount to Sell**: Automatically displays the asset's total holding balance for selected assets to specify the harvesting quantity.
-* **View More / View Less Pagination**: Prevents layout clutter by capping the list to the highest-impact holdings, with a seamless expanding toggle.
+Make sure you have Node.js installed on your machine.
 
-### 💎 Rich Design Aesthetics
-* **Premium Dark Mode**: Styled with subtle space gradients, deep navy space panels, HSL-tailored colors, and thin border outlines.
-* **Glassmorphic Panels**: Semi-transparent backgrounds with backdrop blur, subtle shadow elevations, and glowing hover states.
-* **Fluid Feedback & Skeletons**: High-fidelity animated skeletons render during simulated network latency, avoiding generic spinners.
-* **Collapsible Warnings**: The legal disclaimers banner has a collapsible accordion container with rotation chevrons.
-
----
-
-## 🛠️ Architecture & Tech Stack
-
-* **Core Framework**: React (Vite-based scaffolding)
-* **Styling**: Modern vanilla CSS custom variables and design system tokens.
-* **Data Access Layer**: Async Promise wrappers (`src/data/mockApi.js`) with artificial latency to test skeleton spinners.
-* **Git Integrity**: Initialized as a brand-new repository with progressive, independent commits under Rishav Tarway's credentials (no cloned references).
-
----
-
-## 📁 Project Directory Structure
-
-```text
-koinx-tax-loss-harvesting/
-├── public/                  # Core static files and icons
-├── src/
-│   ├── assets/              # Core SVG assets
-│   ├── components/          # Reusable modular UI components
-│   │   ├── DisclaimerBanner.jsx  # Interactive accordion warning
-│   │   ├── GainsCard.jsx         # Card template for Pre/Post states
-│   │   ├── Header.jsx            # Premium navigation navbar
-│   │   └── HoldingsTable.jsx     # High-fidelity holdings grid
-│   ├── data/
-│   │   └── mockApi.js       # Asynchronous mock API layer
-│   ├── utils/
-│   │   └── calculations.js  # Precision arithmetic calculations
-│   ├── App.jsx              # Main orchestrator component
-│   ├── index.css            # Premium CSS Design System tokens & global styles
-│   └── main.jsx             # Entry script
-├── index.html               # App entrypoint
-├── package.json             # Core dependencies
-└── README.md                # Documentation
-```
-
----
-
-## 💻 Local Setup & Running
-
-Ensure you have **Node.js** (v18 or above) installed on your machine.
-
-1. **Clone the repository** (or unzip the project folder).
-2. **Navigate into the project directory**:
+1. Navigate to the project folder:
    ```bash
    cd koinx-tax-loss-harvesting
    ```
-3. **Install dependencies**:
+2. Install the dependencies:
    ```bash
    npm install
    ```
-4. **Launch local dev server**:
+3. Run the development server:
    ```bash
    npm run dev
    ```
-5. **Open your browser** and visit `http://localhost:5173`.
+4. Open [http://localhost:5173](http://localhost:5173) in your browser.
 
----
+## Build for Production
 
-## 📝 Core Architectural Assumptions
+To create a production-ready build:
+```bash
+npm run build
+```
+This will generate a `dist` folder which can be deployed to Vercel, Netlify, or any other hosting provider.
 
-1. **Tax Loss Calculation**:
-   * For any selected asset holding with a **positive gain** (`gain > 0`), that gain is added to the baseline **profits** of the corresponding category (STCG or LTCG).
-   * For any selected asset holding with a **negative gain** (`gain < 0`), the absolute value of that loss is added to the baseline **losses** of the corresponding category (STCG or LTCG).
-   * Net gains for STCG and LTCG are computed as `Profits - Losses`.
-   * Realised Capital Gains is the sum of `Net STCG + Net LTCG`.
-   * Savings are calculated as `Pre-harvesting Realised Gains - Post-harvesting Realised Gains` and are displayed only if this value is positive.
+## Assumptions Made
 
+1. **Tax Harvesting Arithmetic**:
+   * For each selected holding, if the short-term or long-term gain is positive, the value is added to the baseline profits.
+   * If the gain is negative, the absolute value is added to the baseline losses.
+   * Net gains = Profits - Losses.
+   * Realised Capital Gains = Net STCG + Net LTCG.
+   * Savings are shown only when Pre-harvesting realized capital gains exceed Post-harvesting capital gains.
 2. **Amount to Sell**:
-   * In tax-loss harvesting, you must sell the asset to realize the loss. The "Amount to Sell" is automatically populated with the asset's total holding balance once selected, helping the user understand the operational step needed to lock in that tax credit.
-
-3. **Data Availability**:
-   * Sourced directly via high-fidelity static JSON data mock APIs, complying with the exact payload structures defined in the KoinX prompt details.
-
----
-
-## 🚀 Deployment
-
-The project is fully prepped for immediate deployment on **Vercel** or **Netlify**:
-
-* To build the production-ready build folder locally:
-  ```bash
-  npm run build
-  ```
-* Drag and drop the resulting `dist/` directory directly onto Vercel dashboard, or install and run the Vercel CLI:
-  ```bash
-  npm install -g vercel
-  vercel
-  ```
+   * The "Amount to Sell" column is populated with the selected asset's total holding balance when checked, indicating the complete sale needed to lock in that capital loss.
+3. **Mock APIs**:
+   * The API requests are mocked locally in `src/data/mockApi.js` using async promises and simulated network delays.
