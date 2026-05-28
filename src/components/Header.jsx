@@ -1,28 +1,49 @@
 import React from 'react';
 
 /**
- * Premium Navigation Header Component
- * Renders the brand logo and user action profiles.
+ * Brand navigation Header component matching the Figma screenshots.
+ * Incorporates a premium theme selector toggle to showcase light & dark modes.
+ * 
+ * @param {object} props
+ * @param {string} props.theme - 'light' or 'dark'
+ * @param {function} props.onToggleTheme - Theme switcher handler
  */
-export default function Header() {
+export default function Header({ theme, onToggleTheme }) {
   return (
     <header className="nav-header">
       <a href="/" className="nav-brand" onClick={(e) => e.preventDefault()}>
-        <div className="brand-icon">
-          {/* Custom vector arrow glow logo representation */}
-          <svg viewBox="0 0 24 24">
-            <path d="M5 3l14 9-14 9V3z" />
-          </svg>
-        </div>
         <div className="brand-logo">
-          Koin<span className="logo-accent">X</span>
+          Koin<span className="logo-accent">X</span><sup style={{ fontSize: '10px', fontWeight: 'bold', marginLeft: '1px' }}>®</sup>
         </div>
       </a>
 
       <div className="header-actions">
-        <button className="btn-profile">
-          <span className="avatar-dot"></span>
-          <span>Rishav Tarway</span>
+        {/* Sleek Theme Switcher Button */}
+        <button 
+          className="theme-toggle-btn" 
+          onClick={onToggleTheme}
+          title={theme === 'dark' ? 'Switch to Figma Light Mode' : 'Switch to Figma Dark Mode'}
+          aria-label="Toggle Theme Mode"
+        >
+          {theme === 'dark' ? (
+            /* Sun Icon */
+            <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+          ) : (
+            /* Moon Icon */
+            <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          )}
         </button>
       </div>
     </header>

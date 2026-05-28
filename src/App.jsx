@@ -7,7 +7,7 @@ import { getCapitalGainsData, getHoldingsData } from './data/mockApi';
 import { computeHarvestedGains } from './utils/calculations';
 
 /**
- * Premium Tax Loss Harvesting Orchestrator App Component
+ * Figma-exact Tax Loss Harvesting Orchestrator App Component
  */
 export default function App() {
   const [capitalGains, setCapitalGains] = useState(null);
@@ -15,6 +15,22 @@ export default function App() {
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // Theme state: default is light mode matching the main Figma mockup
+  const [theme, setTheme] = useState('light');
+
+  // Initialize theme
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }, []);
+
+  const handleToggleTheme = () => {
+    setTheme((prevTheme) => {
+      const nextTheme = prevTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      return nextTheme;
+    });
+  };
 
   // 1. Core Data Retrieval
   useEffect(() => {
@@ -24,8 +40,8 @@ export default function App() {
       try {
         setLoading(true);
         const [gainsRes, holdingsRes] = await Promise.all([
-          getCapitalGainsData(800), // simulated premium loading delay
-          getHoldingsData(1000)
+          getCapitalGainsData(600), // simulated premium loading delay
+          getHoldingsData(800)
         ]);
 
         if (active) {
@@ -67,15 +83,11 @@ export default function App() {
   const handleToggleAllAssets = useCallback((idsToToggle) => {
     setSelectedIds((prevSet) => {
       const newSet = new Set(prevSet);
-      
-      // Check if all given items are already selected
       const allSelected = idsToToggle.every(id => newSet.has(id));
 
       if (allSelected) {
-        // Deselect all items in this subset
         idsToToggle.forEach(id => newSet.delete(id));
       } else {
-        // Select all items in this subset
         idsToToggle.forEach(id => newSet.add(id));
       }
       return newSet;
@@ -109,7 +121,6 @@ export default function App() {
       
     const postRealized = postHarvestingData.realised;
     
-    // Only display savings if the projection reduces total taxable realized capital gains
     if (preRealized > postRealized) {
       return preRealized - postRealized;
     }
@@ -137,45 +148,40 @@ export default function App() {
     <div className="app-root">
       <div className="app-container">
         {/* Navigation Bar */}
-        <Header />
+        <Header theme={theme} onToggleTheme={handleToggleTheme} />
 
         <main>
-          {/* Headline Hero section */}
+          {/* Headline Hero section matching Figma exactly */}
           <section className="hero-section">
             <div className="hero-meta">
-              <h1>Tax Loss Harvesting</h1>
-              <p>Optimize your crypto tax liabilities by offsetting realized profits with simulated asset losses.</p>
+              <h1>
+                Tax Harvesting
+                <button className="how-it-works-btn" style={{ marginLeft: '12px', verticalAlign: 'middle' }}>
+                  <span>How it works?</span>
+                  <div className="tooltip-box">
+                    <h4>What is Tax Loss Harvesting?</h4>
+                    <p>Tax-loss harvesting lets you sell underperforming assets at a loss to decrease your taxable gains, lowering your overall tax bill.</p>
+                    <p style={{ marginTop: '6px', color: '#60a5fa' }}>Select individual holdings below to calculate real-time savings.</p>
+                  </div>
+                </button>
+              </h1>
             </div>
-            
-            <button className="how-it-works-btn">
-              <span>How does it work?</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                <line x1="12" y1="17" x2="12.01" y2="17" />
-              </svg>
-              <div className="tooltip-box">
-                <h4>What is Tax Loss Harvesting?</h4>
-                <p>Tax-loss harvesting lets you sell underperforming assets at a loss to decrease your taxable gains, lowering your overall tax bill.</p>
-                <p style={{ marginTop: '8px', color: 'var(--c-primary)' }}>Select individual holdings below to calculate real-time savings.</p>
-              </div>
-            </button>
           </section>
 
-          {/* Legal / Warning Banner */}
+          {/* Legal / Warning Accordion Banner */}
           <DisclaimerBanner />
 
           {/* Glowing Error Banner */}
           {error && (
             <div style={{
               background: 'rgba(239, 68, 68, 0.1)',
-              border: '1.5px solid rgba(239, 68, 68, 0.3)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
               color: 'var(--c-loss)',
-              padding: '16px 20px',
-              borderRadius: '12px',
-              marginBottom: '32px',
+              padding: '14px 20px',
+              borderRadius: '8px',
+              marginBottom: '24px',
               fontWeight: 500,
-              fontSize: '15px',
+              fontSize: '14px',
               display: 'flex',
               alignItems: 'center',
               gap: '10px'

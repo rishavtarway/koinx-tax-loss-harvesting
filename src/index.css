@@ -1,46 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --font-heading: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  /* Premium HSL Color Palette */
-  --bg-primary: #070a13;
-  --bg-secondary: #0d1222;
-  --bg-card: rgba(17, 24, 43, 0.75);
-  --bg-card-hover: rgba(26, 35, 62, 0.85);
+  /* Figma Light Mode Colors */
+  --bg-app: #f2f5fa;
+  --bg-card: #ffffff;
+  --bg-card-header: #f8fafc;
+  --bg-disclaimer: #eff6ff;
+  --c-border: #e2e8f0;
   
-  /* Gradients */
-  --grad-royal: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  --grad-harvest: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
-  --grad-glow: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
-  --grad-profit-bg: rgba(16, 185, 129, 0.1);
-  --grad-loss-bg: rgba(239, 68, 68, 0.1);
-
-  /* Colors */
-  --c-text-primary: #f8fafc;
-  --c-text-secondary: #94a3b8;
-  --c-text-muted: #64748b;
-  --c-border: rgba(148, 163, 184, 0.12);
-  --c-border-hover: rgba(148, 163, 184, 0.25);
-  --c-primary: #3b82f6;
-  --c-primary-hover: #60a5fa;
+  --c-text-title: #0f172a;
+  --c-text-primary: #1e293b;
+  --c-text-secondary: #475569;
+  --c-text-muted: #94a3b8;
+  
+  /* Accent Colors */
+  --c-primary: #0052ff;
+  --c-primary-hover: #0045d8;
+  --c-primary-bg: #e6f0ff;
+  
   --c-profit: #10b981;
-  --c-profit-glow: rgba(16, 185, 129, 0.4);
+  --c-profit-bg: rgba(16, 185, 129, 0.1);
   --c-loss: #ef4444;
-  --c-loss-glow: rgba(239, 68, 68, 0.4);
-  --c-gold: #f59e0b;
-  
-  /* Layout details */
-  --radius-lg: 20px;
-  --radius-md: 12px;
-  --radius-sm: 8px;
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --glow-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+  --c-loss-bg: rgba(239, 68, 68, 0.1);
+  --c-gold: #eab308;
+
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+  --transition-fast: all 0.2s ease;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
-/* Base Styles */
+/* Dark Mode Variables matching Figma Dark Mode */
+[data-theme="dark"] {
+  --bg-app: #0b0f19;
+  --bg-card: #161b26;
+  --bg-card-header: #1e2533;
+  --bg-disclaimer: #162031;
+  --c-border: #262f3f;
+  
+  --c-text-title: #ffffff;
+  --c-text-primary: #f1f5f9;
+  --c-text-secondary: #94a3b8;
+  --c-text-muted: #64748b;
+  
+  --c-primary: #0052ff;
+  --c-primary-hover: #3b82f6;
+  --c-primary-bg: rgba(0, 82, 255, 0.15);
+}
+
+/* Global Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -48,184 +60,146 @@
 }
 
 body {
-  font-family: var(--font-body);
-  background-color: var(--bg-primary);
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
   color: var(--c-text-primary);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 40%);
-  background-attachment: fixed;
+  transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
 }
 
-/* Layout Container */
-.app-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 24px 60px 24px;
+.app-root {
+  min-height: 100vh;
 }
 
-/* Header styling */
+.app-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px 48px 20px;
+}
+
+/* Header Styling */
 .nav-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 0;
-  border-bottom: 1px solid var(--c-border);
-  margin-bottom: 40px;
+  padding: 20px 0;
+  margin-bottom: 24px;
 }
 
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
   text-decoration: none;
 }
 
-.brand-icon {
-  width: 32px;
-  height: 32px;
-  background: var(--grad-glow);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--glow-shadow);
-}
-
-.brand-icon svg {
-  width: 18px;
-  height: 18px;
-  fill: #fff;
-}
-
 .brand-logo {
-  font-family: var(--font-heading);
-  font-weight: 800;
   font-size: 24px;
+  font-weight: 800;
   letter-spacing: -0.5px;
-  background: linear-gradient(to right, var(--c-text-primary), var(--c-text-secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #0052ff;
   display: flex;
   align-items: center;
 }
 
 .brand-logo .logo-accent {
-  background: var(--grad-glow);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 900;
+  color: #f59e0b;
+  font-weight: 800;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
-.btn-profile {
+/* Theme Switch Toggle */
+.theme-toggle-btn {
   background: var(--bg-card);
   border: 1px solid var(--c-border);
   color: var(--c-text-primary);
-  padding: 10px 18px;
-  border-radius: var(--radius-md);
-  font-family: var(--font-body);
-  font-weight: 500;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: var(--transition-smooth);
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
 }
 
-.btn-profile:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--c-border-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.theme-toggle-btn:hover {
+  background: var(--bg-card-header);
+  transform: scale(1.05);
 }
 
-.avatar-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--c-profit);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--c-profit);
+.theme-toggle-btn svg {
+  width: 20px;
+  height: 20px;
 }
 
-/* Page Title Section */
+/* Hero Section */
 .hero-section {
-  margin-bottom: 32px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 12px;
 }
 
 .hero-meta h1 {
-  font-family: var(--font-heading);
+  font-size: 28px;
   font-weight: 700;
-  font-size: 38px;
-  letter-spacing: -1px;
-  margin-bottom: 8px;
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero-meta p {
-  color: var(--c-text-secondary);
-  font-size: 16px;
-  font-weight: 400;
+  color: var(--c-text-title);
+  letter-spacing: -0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .how-it-works-btn {
   background: transparent;
   border: none;
-  color: var(--c-primary);
-  font-weight: 600;
-  font-size: 15px;
+  color: #0052ff;
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: underline;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  transition: var(--transition-smooth);
   position: relative;
+  font-family: var(--font-sans);
 }
 
 .how-it-works-btn:hover {
   color: var(--c-primary-hover);
-  background: rgba(59, 130, 246, 0.08);
 }
 
-/* Tooltip on hover */
+/* Tooltip on hover matching Figma exactly */
 .how-it-works-btn .tooltip-box {
   visibility: hidden;
   opacity: 0;
   width: 280px;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--c-border);
-  color: var(--c-text-secondary);
+  background-color: #111827;
+  color: #d1d5db;
   text-align: left;
   border-radius: var(--radius-md);
-  padding: 16px;
+  padding: 14px;
   position: absolute;
   z-index: 100;
-  bottom: 125%;
-  right: 0;
-  box-shadow: var(--glass-shadow);
-  transition: opacity 0.3s, transform 0.3s;
-  transform: translateY(10px);
+  bottom: 130%;
+  left: 0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.2s, transform 0.2s;
+  transform: translateY(6px);
   font-weight: 400;
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 1.5;
+  text-decoration: none !important;
 }
 
 .how-it-works-btn:hover .tooltip-box {
@@ -234,22 +208,26 @@ body {
   transform: translateY(0);
 }
 
-.tooltip-box h4 {
-  color: var(--c-text-primary);
-  margin-bottom: 8px;
-  font-family: var(--font-heading);
+.how-it-works-btn .tooltip-box h4 {
+  color: #ffffff;
+  margin-bottom: 6px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
 }
 
-/* Disclaimer banner */
+.tooltip-link {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+/* Collapsible Disclaimer Card */
 .disclaimer-card {
-  background: rgba(245, 158, 11, 0.05);
-  border-left: 4px solid var(--c-gold);
+  background: var(--bg-disclaimer);
+  border: 1px solid var(--c-border);
   border-radius: var(--radius-md);
-  padding: 16px 20px;
-  margin-bottom: 40px;
-  transition: var(--transition-smooth);
+  margin-bottom: 24px;
+  overflow: hidden;
+  transition: var(--transition-fast);
 }
 
 .disclaimer-trigger {
@@ -259,28 +237,30 @@ body {
   background: transparent;
   border: none;
   width: 100%;
-  color: var(--c-text-primary);
-  text-align: left;
+  padding: 14px 20px;
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 500;
+  font-family: var(--font-sans);
+  text-align: left;
+  transition: var(--transition-fast);
 }
 
 .disclaimer-label {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #fef08a;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--c-text-primary);
 }
 
 .disclaimer-label svg {
-  color: var(--c-gold);
+  color: #0052ff;
   flex-shrink: 0;
 }
 
 .disclaimer-chevron {
-  transition: transform 0.3s ease;
-  color: var(--c-text-muted);
+  transition: transform 0.2s ease;
+  color: var(--c-text-secondary);
 }
 
 .disclaimer-chevron.expanded {
@@ -288,9 +268,8 @@ body {
 }
 
 .disclaimer-content {
-  margin-top: 14px;
-  padding-left: 30px;
-  animation: slideDown 0.3s ease-out forwards;
+  padding: 0 20px 16px 20px;
+  animation: slideDown 0.2s ease-out forwards;
 }
 
 .disclaimer-list {
@@ -298,20 +277,21 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding-left: 20px;
 }
 
 .disclaimer-item {
-  position: relative;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--c-text-secondary);
   line-height: 1.5;
+  position: relative;
 }
 
 .disclaimer-item::before {
   content: "•";
-  color: var(--c-gold);
+  color: var(--c-text-primary);
   font-weight: bold;
-  display: inline-block; 
+  display: inline-block;
   width: 1em;
   margin-left: -1em;
 }
@@ -320,106 +300,78 @@ body {
 .gains-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
-  margin-bottom: 48px;
+  gap: 24px;
+  margin-bottom: 24px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .gains-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 
-/* Card layout */
+/* Card General Styling */
 .card-glass {
   background: var(--bg-card);
-  backdrop-filter: blur(16px);
   border: 1px solid var(--c-border);
   border-radius: var(--radius-lg);
-  padding: 30px;
-  box-shadow: var(--glass-shadow);
-  transition: var(--transition-smooth);
-  position: relative;
-  overflow: hidden;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+  display: flex;
+  flex-direction: column;
 }
 
-.card-glass::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: transparent;
+.card-pre {
+  background: var(--bg-card);
 }
 
-.card-pre::after {
-  background: var(--grad-royal);
-}
-
+/* Solid Blue Card matching Figma exactly */
 .card-post {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(37, 99, 235, 0.25) 100%);
-  border: 1px solid rgba(59, 130, 246, 0.25);
-  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.15);
-}
-
-.card-post::after {
-  background: var(--grad-harvest);
-}
-
-.card-glass:hover {
-  transform: translateY(-4px);
-  border-color: var(--c-border-hover);
+  background: #0052ff;
+  color: #ffffff;
+  border-color: #0052ff;
+  box-shadow: 0 10px 25px -5px rgba(0, 82, 255, 0.2);
 }
 
 .card-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .card-badge {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--c-text-secondary);
-}
-
-.card-post .card-badge {
-  background: rgba(37, 99, 235, 0.2);
-  color: #93c5fd;
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+  display: none; /* Hide custom badge to match Figma exactly */
 }
 
 .card-title {
-  font-family: var(--font-heading);
+  font-size: 18px;
   font-weight: 700;
-  font-size: 22px;
-  color: var(--c-text-primary);
+  color: var(--c-text-title);
 }
 
-/* Card Table Styling */
+.card-post .card-title {
+  color: #ffffff;
+}
+
+/* Card Table Styling matching Figma exactly */
 .card-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .card-table th {
   text-align: right;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
   color: var(--c-text-muted);
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--c-border);
+  border-bottom: none;
+}
+
+.card-post .card-table th {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .card-table th:first-child {
@@ -427,280 +379,224 @@ body {
 }
 
 .card-table td {
-  padding: 16px 0;
-  font-size: 15px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.06);
-}
-
-.card-table tr:last-child td {
-  border-bottom: none;
+  padding: 12px 0;
+  font-size: 14px;
+  border-bottom: none; /* Figma uses borderless tables */
 }
 
 .card-table td:first-child {
   color: var(--c-text-secondary);
   font-weight: 500;
+  text-align: left;
+}
+
+.card-post .card-table td:first-child {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .card-table td:not(:first-child) {
   text-align: right;
-  font-family: var(--font-body);
   font-weight: 600;
+  color: var(--c-text-primary);
 }
 
-.row-net {
-  background: rgba(255, 255, 255, 0.02);
+.card-post .card-table td:not(:first-child) {
+  color: #ffffff;
 }
 
 .row-net td {
-  font-family: var(--font-heading) !important;
-  font-size: 16px !important;
   font-weight: 700 !important;
-  color: var(--c-text-primary) !important;
-  padding: 16px 12px !important;
+  color: var(--c-text-title) !important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
 }
 
-.row-net td:first-child {
-  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+.card-post .row-net td {
+  color: #ffffff !important;
 }
 
-.row-net td:last-child {
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-
-/* Realized Row */
+/* Realized Gain Banner at Bottom */
 .card-realised-banner {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 18px 24px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-md);
-  margin-top: 20px;
-  transition: var(--transition-smooth);
+  align-items: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid var(--c-border);
+  margin-top: auto;
 }
 
 .card-post .card-realised-banner {
-  background: rgba(37, 99, 235, 0.1);
-  border-color: rgba(59, 130, 246, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.2);
 }
 
 .realised-title {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--c-text-secondary);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--c-text-primary);
+}
+
+.card-post .realised-title {
+  color: #ffffff;
 }
 
 .realised-value {
-  font-family: var(--font-heading);
+  font-size: 24px;
   font-weight: 800;
-  font-size: 22px;
+  color: var(--c-text-title);
   letter-spacing: -0.5px;
+  line-height: 1;
 }
 
-/* Savings Box styling */
+.card-post .realised-value {
+  color: #ffffff;
+}
+
+/* Savings Box matching Figma exactly */
 .savings-banner {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  border-radius: var(--radius-md);
-  padding: 16px 20px;
-  margin-top: 18px;
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 14px 0 0 0;
+  margin-top: 16px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  animation: glowPulse 2s infinite alternate;
+  gap: 8px;
 }
 
 .savings-icon-container {
-  width: 36px;
-  height: 36px;
-  background: var(--c-profit);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 18px;
-  box-shadow: 0 0 12px var(--c-profit-glow);
-  flex-shrink: 0;
+  display: none; /* Hide container matching Figma icon placement */
 }
 
 .savings-info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
 }
 
 .savings-info .savings-label {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--c-text-secondary);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.savings-info .savings-label::before {
+  content: "🎉";
 }
 
 .savings-info .savings-val {
-  font-family: var(--font-heading);
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 700;
-  color: var(--c-profit);
+  color: #ffffff;
 }
 
-/* Holdings Table Section */
+/* Holdings Card Layout */
 .holdings-container {
   background: var(--bg-card);
   border: 1px solid var(--c-border);
   border-radius: var(--radius-lg);
-  padding: 30px;
-  box-shadow: var(--glass-shadow);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
 }
 
 .holdings-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  gap: 16px;
+  margin-bottom: 16px;
 }
 
 .holdings-title-row {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
 .holdings-main-title {
-  font-family: var(--font-heading);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
-  color: var(--c-text-primary);
+  color: var(--c-text-title);
 }
 
 .holdings-count-badge {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--c-border);
-  padding: 2px 10px;
-  border-radius: 12px;
-  font-size: 12px;
-  color: var(--c-text-secondary);
-  font-weight: 600;
+  display: none; /* Hide count badge matching Figma */
 }
 
 .table-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: none; /* Hide search and filter dropdown matching Figma */
 }
 
-.search-input-wrapper {
-  position: relative;
-}
-
-.search-input-wrapper svg {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--c-text-muted);
-  width: 16px;
-  height: 16px;
-}
-
-.search-input {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--c-border);
-  color: var(--c-text-primary);
-  padding: 10px 14px 10px 40px;
-  border-radius: var(--radius-md);
-  font-family: var(--font-body);
-  font-size: 14px;
-  width: 220px;
-  transition: var(--transition-smooth);
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: var(--c-primary);
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
-}
-
-.sort-select {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--c-border);
-  color: var(--c-text-primary);
-  padding: 10px 16px;
-  border-radius: var(--radius-md);
-  font-family: var(--font-body);
-  font-size: 14px;
-  cursor: pointer;
-  transition: var(--transition-smooth);
-}
-
-.sort-select:focus {
-  outline: none;
-  border-color: var(--c-primary);
-}
-
-/* Table Wrapper */
+/* Table Design matching Figma */
 .table-scroll-wrapper {
   overflow-x: auto;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(148, 163, 184, 0.08);
+  margin: 0 -24px;
+  padding: 0 24px;
 }
 
 .holdings-table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
 }
 
 .holdings-table th {
-  background: rgba(15, 23, 42, 0.4);
-  padding: 18px 16px;
-  font-size: 12px;
-  font-weight: 600;
+  background: transparent;
+  padding: 12px;
+  font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
   color: var(--c-text-muted);
-  border-bottom: 2px solid var(--c-border);
-  white-space: nowrap;
+  border-bottom: 1px solid var(--c-border);
 }
 
 .holdings-table th.th-right {
   text-align: right;
 }
 
+.holdings-table th:first-child {
+  padding-left: 0;
+}
+
+.holdings-table th:last-child {
+  padding-right: 0;
+}
+
 .holdings-table td {
-  padding: 16px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--c-border);
   vertical-align: middle;
   font-size: 14px;
-  transition: var(--transition-smooth);
+  transition: var(--transition-fast);
 }
 
+.holdings-table td:first-child {
+  padding-left: 0;
+}
+
+.holdings-table td:last-child {
+  padding-right: 0;
+}
+
+/* Row Hover & Selection Styling */
 .holdings-table tr:hover td {
-  background: rgba(255, 255, 255, 0.015);
+  background: rgba(0, 82, 255, 0.015);
 }
 
+/* Selected row has a soft background tint */
 .holdings-table tr.row-selected td {
-  background: rgba(59, 130, 246, 0.03);
-}
-
-.holdings-table tr.row-selected:hover td {
-  background: rgba(59, 130, 246, 0.05);
+  background: var(--c-primary-bg) !important;
 }
 
 .holdings-table td.td-right {
   text-align: right;
 }
 
-/* Custom Checkbox */
+/* Indeterminate checkbox support and clean figma design */
 .checkbox-container {
-  display: block;
+  display: inline-block;
   position: relative;
-  padding-left: 24px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
-  user-select: none;
 }
 
 .checkbox-container input {
@@ -713,15 +609,14 @@ body {
 
 .checkbox-custom {
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 0;
-  transform: translateY(-50%);
   height: 18px;
   width: 18px;
-  background-color: rgba(255, 255, 255, 0.06);
-  border: 1.5px solid var(--c-border);
+  background-color: var(--bg-card);
+  border: 1px solid var(--c-border);
   border-radius: 4px;
-  transition: var(--transition-smooth);
+  transition: var(--transition-fast);
 }
 
 .checkbox-container:hover input ~ .checkbox-custom {
@@ -731,14 +626,13 @@ body {
 .checkbox-container input:checked ~ .checkbox-custom {
   background-color: var(--c-primary);
   border-color: var(--c-primary);
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
 }
 
 .checkbox-custom::after {
   content: "";
   position: absolute;
   display: none;
-  left: 5px;
+  left: 6px;
   top: 2px;
   width: 4px;
   height: 8px;
@@ -751,7 +645,7 @@ body {
   display: block;
 }
 
-/* Indeterminate checkbox state custom */
+/* Indeterminate design */
 .checkbox-container input:indeterminate ~ .checkbox-custom {
   background-color: var(--c-primary);
   border-color: var(--c-primary);
@@ -762,15 +656,15 @@ body {
   position: absolute;
   display: block;
   left: 4px;
-  top: 6px;
-  width: 7px;
+  top: 7px;
+  width: 8px;
   height: 2px;
   background: white;
   border: none;
   transform: none;
 }
 
-/* Asset cell column */
+/* Asset Cell Columns */
 .asset-cell {
   display: flex;
   align-items: center;
@@ -778,11 +672,11 @@ body {
 }
 
 .coin-icon {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   object-fit: cover;
-  background: rgba(255, 255, 255, 0.06);
+  background: #ffffff;
   border: 1px solid var(--c-border);
 }
 
@@ -792,63 +686,46 @@ body {
 }
 
 .coin-symbol {
-  font-family: var(--font-heading);
-  font-weight: 700;
   font-size: 14px;
+  font-weight: 700;
   color: var(--c-text-primary);
+  line-height: 1.2;
 }
 
 .coin-fullname {
   font-size: 12px;
   color: var(--c-text-muted);
-  white-space: nowrap;
-  max-width: 140px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-/* Table Text Formats */
+/* Table value formatting */
 .val-primary {
   font-weight: 600;
   color: var(--c-text-primary);
 }
 
 .val-secondary {
-  font-size: 12px;
-  color: var(--c-text-secondary);
+  font-size: 11px;
+  color: var(--c-text-muted);
   margin-top: 2px;
 }
 
-/* Gain values formatting */
+/* Colored gain displays matching Figma exactly */
 .gain-pill {
+  font-weight: 700;
+  font-size: 14px;
   display: inline-block;
-  font-weight: 600;
-  font-size: 13px;
-  padding: 2px 8px;
-  border-radius: 4px;
 }
 
 .gain-positive {
   color: var(--c-profit);
-  background-color: var(--grad-profit-bg);
 }
 
 .gain-negative {
   color: var(--c-loss);
-  background-color: var(--grad-loss-bg);
 }
 
 .gain-neutral {
   color: var(--c-text-secondary);
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.text-profit {
-  color: var(--c-profit);
-}
-
-.text-loss {
-  color: var(--c-loss);
 }
 
 .val-negative {
@@ -859,62 +736,53 @@ body {
   color: var(--c-profit) !important;
 }
 
-/* Amount to Sell block */
+/* Amount to Sell badge */
 .sell-badge {
   font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: rgba(59, 130, 246, 0.1);
-  border: 1.5px solid rgba(59, 130, 246, 0.25);
-  color: var(--c-primary-hover);
-  display: inline-block;
+  color: var(--c-text-primary);
 }
 
-/* Table Expand View All Row */
+.row-selected .sell-badge {
+  font-weight: 700;
+}
+
+/* View all blue link at bottom left matching Figma exactly */
 .view-more-row {
   display: flex;
-  justify-content: center;
-  margin-top: 24px;
+  justify-content: flex-start;
+  margin-top: 16px;
 }
 
 .btn-view-all {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--c-border);
-  color: var(--c-text-secondary);
-  padding: 12px 24px;
-  border-radius: var(--radius-md);
-  font-family: var(--font-body);
+  background: transparent;
+  border: none;
+  color: #0052ff;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  transition: var(--transition-smooth);
+  transition: var(--transition-fast);
+  text-decoration: underline;
+  padding: 4px 0;
+  font-family: var(--font-sans);
 }
 
 .btn-view-all:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--c-border-hover);
-  color: var(--c-text-primary);
-  transform: translateY(-2px);
+  color: var(--c-primary-hover);
 }
 
 .btn-view-all svg {
-  transition: transform 0.3s;
-}
-
-.btn-view-all.expanded svg {
-  transform: rotate(180deg);
+  display: none; /* Hide default chevron to match Figma simple link */
 }
 
 /* Skeleton Loading states */
 .skeleton {
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.04) 25%,
-    rgba(255, 255, 255, 0.08) 37%,
-    rgba(255, 255, 255, 0.04) 63%
+    rgba(148, 163, 184, 0.08) 25%,
+    rgba(148, 163, 184, 0.15) 37%,
+    rgba(148, 163, 184, 0.08) 63%
   );
   background-size: 400% 100%;
   animation: skeletonLoading 1.4s ease infinite;
@@ -955,76 +823,10 @@ body {
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-4px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes glowPulse {
-  from {
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
-  }
-  to {
-    box-shadow: 0 0 18px rgba(16, 185, 129, 0.25);
-  }
-}
-
-/* Responsiveness adjustments */
-@media (max-width: 768px) {
-  .hero-section {
-    margin-bottom: 20px;
-    align-items: flex-start;
-  }
-  
-  .hero-meta h1 {
-    font-size: 30px;
-  }
-  
-  .app-container {
-    padding: 0 16px 40px 16px;
-  }
-  
-  .nav-header {
-    margin-bottom: 24px;
-  }
-  
-  .card-glass {
-    padding: 20px;
-  }
-  
-  .holdings-container {
-    padding: 20px 16px;
-  }
-
-  .holdings-controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .table-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-input {
-    width: 100%;
-  }
-
-  .sort-select {
-    width: 100%;
-  }
-
-  /* Hide secondary desktop columns */
-  .hide-tablet {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .hide-mobile {
-    display: none;
   }
 }
